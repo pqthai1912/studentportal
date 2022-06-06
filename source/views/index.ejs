@@ -1,0 +1,121 @@
+<% include includes/header.ejs %>
+
+        <!-- main-content------- -->
+        <div class="content-area">
+            
+            <section class="content-header">
+
+            </section>
+                
+            <!-- Đăng bài -->
+            <div class="write-post-container">
+                <div class="user-profile">
+                    <img id="avatar-image" src="<%= user.image %>" alt="">
+                    <div>
+                        <p> <%=user.name%></p>
+                        <small>Public <i class="fas fa-caret-down"></i></small>
+                    </div>
+                </div>
+                <!-- Nội dung bài viết -->
+                <div class="newpst-input">
+                    <form method="post" id="form-add-post" onsubmit="return addPost(this);" enctype="multipart/form-data">
+                        <input name="type" id="type" type="hidden" value="post">
+                        <input name="email" id="email" type="hidden" value="<%= user.email %>">
+                        <input name="_id" id="_id" type="hidden" value="<%= user._id %>">
+                        <input name="googleId" id="googleId" type="hidden" value="<%= user.googleId %>">
+                        <textarea name="caption" id="caption" placeholder="Bạn đang nghĩ gì, <%=user.name%>?" id="" cols="30" rows="3"></textarea>
+                        <div class="attachments">
+                            <ul>
+                                <li id="preview-image">
+
+                                </li>
+                                <li>
+                                    <i class="fa fa-image"></i>
+                                    <label class="fileContainer">
+                                        <input id="image" type="file" name="image" accept="image/*" onchange="previewPostImage(this);">
+                                    </label>
+                                </li>
+                                <li>
+                                    <i class="fa fa-video-camera"></i>
+                                    <label class="fileContainer">
+                                        <input id="video" type="text" name="video" placeholder="Điền link youtube">
+                                    </label>
+                                </li>
+                                <li>
+                                    <button id="post-submit" type="submit">Post</button>
+                                </li>
+
+                            </ul>
+                        </div>
+                        
+                    </form>
+
+                </div>
+            </div>
+
+                <div class="loadMore" id="newsfeed">
+
+                </div>
+            <p  style="text-align:center; display: block;"><strong id="change-end"></strong></p>
+            <!-- <p  style="text-align:center; display: block;"><strong>Hết tin để load...</strong></p> -->
+
+        </div>
+        <!-- Modal -->
+        <div id="deleteModal" class="modal">
+            <!-- <span onclick="document.getElementById('deleteModal').style.display='none'" class="close" title="Close Modal">×</span> -->
+            <!-- phải có return ở đầu form -->
+            <form class="modal-content" method="post" onsubmit="return doDelete(this);">
+              <div class="container-box">
+                <h1>Xóa bài đăng</h1><br>
+                <p>Bạn có chắc muốn xóa bài đăng này</p><br>
+                
+              
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('deleteModal').style.display='none'" class="cancelbtn">Hủy</button>
+                  <button id="btn-submit" name = "submit" type="submit" class="deletebtn btn-delete-modal" >Xóa</button>
+                </div>
+              </div>
+            </form>
+        </div>
+
+        <div id="editModal" class="modal">
+            <!-- phải có return ở đầu form -->
+            <form id="form-edit-post" class="modal-content" method="put" onsubmit="return doEdit(this);" enctype="multipart/form-data">
+              <div class="container-box">
+                <h1>Chỉnh sửa bài viết</h1><br>
+
+                <div class="newpst-input">
+                        <input name="type" id="type" type="hidden" value="post">
+                        <input name="email" id="email" type="hidden" value="">
+                        <input name="imageCheck" id="image-check" type="hidden" value="">
+                        <textarea name="captionDialog" id="caption-dialog" placeholder="Bạn đang nghĩ gì, <%=user.name%>?" id="" cols="30" rows="3"></textarea>
+                        <div class="attachments">
+                            <ul>
+                                <li id="preview-image-dialog">
+                                </li>
+                                <li>
+                                    <i class="fa fa-image"></i>
+                                    <label class="fileContainer">
+                                        <input id="image-dialog" type="file" name="imageDialog" accept="image/*" onchange="previewPostImageDialog(this);">
+                                    </label>
+                                </li>
+                                <li>
+                                    <i class="fa fa-video-camera"></i>
+                                    <label class="fileContainer">
+                                        <input id="video-dialog" type="text" name="videoDialog" placeholder="Điền link youtube">
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+
+                <div class="clearfix">
+                  <button  id="btn-cancel" type="button" onclick="document.getElementById('editModal').style.display='none'" class="cancelbtn">Hủy</button>
+                  <button id="btn-submit" name = "submitEdit" type="submit" class="editbtn btn-edit-modal" >Cập nhật</button>
+                </div>
+              </div>
+            </form>
+        </div>
+       
+
+<% include includes/footer.ejs %>

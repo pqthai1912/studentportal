@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>Edit Profile User</title>
+        <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
+        <link href='' rel='stylesheet'>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+        <link href="../../stylesheets/profile.css" rel="stylesheet">
+    </head>
+<body  class='snippet-body'>
+ 
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <a type="submit" class="mt-3" id="back-profile" href="/profile/<%=user.id%>"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+    <form id="post-update-edit" method="post" onsubmit="return editProfile(this);">	
+        <div class="row">
+            <div class="col-md-5 border-right">   
+                <div class="p-3 py-5"></div>
+                        <div class="d-flex flex-column align-items-center text-center p-4 py-6 profile-info-left">	
+                            <div class="text-center">
+                                <p class="profile-fullname mt-3">Cập nhật hình ảnh</p>
+                                <div class="profile-img w-shadow">
+                                    <div class="profile-img-overlay"></div>
+                                    <% if(!user.googleId){ %>
+                                        <img id="blah" width="150px" src="../../<%=user.image%>" alt="Avatar" class="avatar img-circle">
+                                    <% }else{ if(user.image.includes("uploads")){ %>
+                                            <img id="blah" width="150px" src="../../<%=user.image%>" alt="Avatar" class="avatar img-circle">
+                                        <% } else{ %>
+                                            <img id="blah" width="150px" src="<%=user.image%>" alt="Avatar" class="avatar img-circle">
+                                        <% }} %>
+                                    <div class="profile-img-caption">
+                                        <label for="updateProfilePic" class="upload">
+                                            <i class='bx bxs-camera'></i> Upload
+                                            <!-- Cập nhật ảnh -->
+                                            <% var imageAvatar = (user.image != "") ? user.image : "";  %>
+                                            <input value="<%=imageAvatar%>" name="image" type="file" id="updateProfilePicInput" accept="image/" class="text-center upload" onchange="readURL(this);">
+                                        </label>
+                                    </div>
+                                </div>
+                                <p class="profile-fullname mt-3"><%=user.name%></p>
+                                <p class="profile-username mb-3 text-muted"><%=user.email%></p>
+                            </div>
+                        </div>                                    
+            </div>
+            <div class="col-md-7 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Chỉnh sửa thông tin cá nhân</h4>
+                    </div>   
+                    <input name="_id" id="_id" type="hidden" value="<%= user._id %>">
+                        <div class="row mt-3">
+                                <div class="form-group">
+                                    <label for="name">Tên hiển thị</label>
+                                    <input value="<%= user.name %>" name="name" required class="form-control" type="text" placeholder="--Nhập tên--" id="name">
+                                </div>
+                        </div>
+                        <div class="row mt-3">                  
+                            <div class="form-group">
+                                    <label for="class">Lớp</label>
+                                    <input value="<%= user.class %>" name="class" required class="form-control" type="class" placeholder="--Nhập class--" id="class">
+                                </div>                                                        
+                        </div>
+                        <div class="row mt-3">                  
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Phòng khoa</label>
+                                <select name="department" class="form-control" id="department">
+                                    <!-- <option selected value="">Chọn phòng khoa</option> -->
+
+                                <% departments.forEach(department =>{ %>
+                                    <!-- phải toString -->
+                                    <!-- nếu có user.department -->
+                                    <% if(user.department){ %>
+                                        <option <%= (department._id.toString() == user.department.toString()) ? 'selected' : '';%>
+                                            value="<%=department._id%>" class= "<%=user.department%>"><%=department.department%></option>
+                                <%  }else{ %>
+                                        <option value="<%=department._id%>" class= "<%=user.department%>"><%=department.department%></option>
+                                }<% } %>
+                            
+                            <% }) %>
+                            
+                                </select>
+                            </div>     
+                        </div>							
+
+                    
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Cập nhật thông tin</button></div>
+                </div>
+            </div>       
+        </div>
+    </form>
+</div>
+    
+</body>
+<script type="text/javascript" src="/javascripts/edit.js"></script>
+</html>

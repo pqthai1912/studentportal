@@ -1,0 +1,68 @@
+<!-- views/pages/auth.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Google SignIn</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
+      rel="stylesheet"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="../javascripts/login.js"></script>
+    <link rel="stylesheet" href="../stylesheets/login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>Login Form</header>
+      <form novalidate action="/user/login" method="post">
+        <div class="input-field">
+          <input value="<%=email%>" name = "email" id= "email" type="text" required />
+          <label>Email</label>
+        </div>
+        <div class="input-field">
+          <input name="password" id = "password" class="pswrd" type="password" required />
+          <span class="show">SHOW</span>
+          <label>Password</label>
+        </div>
+          <% if(error.length> 0) {%>
+            <div class="input-field">
+              <div class="alert alert-danger ">
+
+                  <%=error %>
+              </div>
+            </div>
+              <% } %>
+        <div class="button">
+          <div class="inner"></div>
+          <button>LOGIN</button>
+        </div>
+      </form>
+      <div class="or-seperator"><b>Or</b></div>
+      <div class="text-center social-btn">
+        <a href="/auth/google" class="btn btn-danger btn-lg btn-block"
+          ><i class="fa fa-google"></i> Sign in with <b>Google</b></a
+        >
+      </div>
+    </div>
+  </body>
+</html>

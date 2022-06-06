@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Profile User</title>
+    <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.inview/0.2/jquery.inview.min.js"></script>
+</head>
+
+<body>
+    <% if(!userNow.googleId){ %>
+        <nav class="navbar">
+            <div class="nav-left"><a href="/<%=(!userNow.googleId) ? 'department' : ''%>"><img class="logo" src="../../images/images/logoTDT.png" alt=""></a>
+            </div>
+            <div class="nav-right">
+                <div class="search-box">
+                    <!-- <img src="../images/images/search.png" alt="">
+                    <input type="text" placeholder="Search"> -->
+                </div>
+                <div class="profile-image online" onclick="UserSettingToggle()">
+                    <img src="../../<%=userNow.image%>" alt="">
+                </div>
+    
+            </div>
+            <div class="user-settings">
+                <div class="profile-darkButton">
+                    <div class="user-profile">
+                        <img src="../../<%=userNow.image%>" alt="">
+                        <div>
+                            <p> <%=userNow.name%></p>
+    
+                                <a href="/department/profile/<%=userNow._id%>">Trang cá nhân</a>
+                        </div>
+                    </div>
+                    <div id="dark-button" onclick="darkModeON()">
+                        <span></span>
+                    </div>
+                </div>
+                <hr>
+                <div class="settings-links">
+                    <img src="../../images/images/logout.png" alt="" class="settings-icon">
+                    <a href="/user/logout">Logout <img src="../../images/images/arrow.png" alt=""></a>
+                </div>
+    
+            </div>
+        </nav>
+    <% }else{ %>
+        <nav class="navbar">
+            <div class="nav-left"><a href="/"><img class="logo" src="../images/images/logoTDT.png" alt=""></a>
+            </div>
+            <div class="nav-right">
+                <div class="search-box">
+                    <!-- <img src="../images/images/search.png" alt="">
+                    <input type="text" placeholder="Search"> -->
+                </div>
+                <div class="profile-image online" onclick="UserSettingToggle()">
+                    <% if(!userNow.googleId){ %>
+                        <img  id="avatar-image" src="../../<%=userNow.image%>" class="dashboard-img" alt="">
+                    <% }else{ if(userNow.image.includes("uploads")){ %>
+                            <img  id="avatar-image" src="../../<%=userNow.image%>" class="dashboard-img" alt="">
+                        <% } else{ %>
+                            <img  id="avatar-image" src="<%=userNow.image%>" class="dashboard-img" alt="">
+                        <% } %>
+                    <% } %>
+                </div>
+    
+            </div>
+            <div class="user-settings">
+                <div class="profile-darkButton">
+                    <div class="user-profile">
+                        <% if(!userNow.googleId){ %>
+                            <img  id="avatar-image" src="../../<%=userNow.image%>" class="dashboard-img" alt="">
+                        <% }else{ if(userNow.image.includes("uploads")){ %>
+                                <img  id="avatar-image" src="../../<%=userNow.image%>" class="dashboard-img" alt="">
+                            <% } else{ %>
+                                <img  id="avatar-image" src="<%=userNow.image%>" class="dashboard-img" alt="">
+                            <% } %>
+                        <% } %>
+                        <div>
+                            <p> <%=userNow.name%></p>
+                            <a href="/profile/<%=userNow._id%>">Trang cá nhân</a>
+                           
+                        </div>
+                    </div>
+                    <div id="dark-button" onclick="darkModeON()">
+                        <span></span>
+                    </div>
+                </div>
+                <hr>
+                <div class="settings-links">
+                    <img src="../images/images/logout.png" alt="" class="settings-icon">
+                    <a href="/user/logout">Logout <img src="../images/images/arrow.png" alt=""></a>
+                </div>
+    
+            </div>
+        </nav>
+         <% } %>
+    <!-- profile-page-------------------------- -->
+
+
+    <div class="profile-container">
+        <!-- <img src="images/cover.png" class="coverImage" alt=""> -->
+        <div class="dashboard">
+            <div class="left-dashboard">
+                <% if(!user.googleId){ %>
+                    <img src="../../<%=user.image%>" class="dashboard-img" alt="">
+                    <div class="left-dashboard-info">
+                        <h3><%=user.name%></h3>
+                    </div>
+            </div>
+                <div class="right-dashboard-info">
+                    <div class="right-dashboard-info-top"></div>
+                    <!-- <div class="right-div-single-logo" visibility-<%= ((user._id.toString() == userNow._id.toString()) ? 'visible' : 'hidden')%>> <a href="#"> <i class="fas fa-lock"> Đổi mật khẩu</i></a></div> -->
+                </div>
+                <% }else{ if(user.image.includes("uploads")){ %>
+                            <img src="../../<%=user.image%>" class="dashboard-img" alt="">
+                        <% } else{ %>
+                            <img src="<%=user.image%>" class="dashboard-img" alt="">
+                        <% } %>
+                    <div class="left-dashboard-info">
+                        <h3><%=user.name%></h3>
+                    </div>
+            </div>
+                <div class="right-dashboard-info">
+                    <div class="right-dashboard-info-top"></div>
+                    <div class="right-div-single-logo visibility-<%= ((user._id.toString() == userNow._id.toString()) ? 'visible' : 'hidden')%>"> <a href="/profile/user/<%=user._id%>"> <i class="fas fa-user-edit"> Chỉnh sửa</i></a></div>
+                </div>
+                <% } %>
+                
+        </div>
+
+
+        <!-- <div class="container content-profile-container"> -->
+            <!-- <div class="left-sidebar profile-left-sidebar"> -->
+                <!-- <div class="left-profile-sidebar-top">
+                        <div class="intro-bio">
+                            <h4>intro</h4>
+                            <p>Belive in yourself and you do unbelievable things <i class="far fa-smile-beam"></i></p>
+                            <hr>
+                        </div>
+                        <div class="background-details">
+                            <a href="#"><i class="fas fa-briefcase"></i>
+                                <p>Freelancer on Fiverr</p>
+                            </a>
+                            <a href="#"><i class="fas fa-graduation-cap"></i>
+                                <p>Studied bsc at Choumuhoni Collage</p>
+                            </a>
+                            <a href="#"><i class="fas fa-user-graduate"></i>
+                                <p>Went to Technical School & Collage</p>
+                            </a>
+                            <a href="#"><i class="fas fa-home"></i>
+                                <p>Lives in Noakhali, Chittagong</p>
+                            </a>
+                            <a href="#"><i class="fas fa-map-marker-alt"></i>
+                                <p>From Chittagong, Bangladesh</p>
+                            </a>
+                        </div>
+                    </div> -->
+
+            <!-- </div> -->
+
+            <!-- main-content------- -->
+            
+        <div class="content-area profile-content-area">
+            <!-- Đăng bài -->
+            <div class="write-post-container visibility-<%= ((user._id.toString() == userNow._id.toString()) ? 'visible' : 'hidden')%>">
+                <div class="user-profile">
+                    <% if(!userNow.googleId){ %>
+                        <img  id="avatar-image" src="../../<%=userNow.image%>" class="dashboard-img" alt="">
+                    <% }else{ if(userNow.image.includes("uploads")){ %>
+                            <img  id="avatar-image" src="../../<%=userNow.image%>" class="dashboard-img" alt="">
+                        <% } else{ %>
+                            <img  id="avatar-image" src="<%=userNow.image%>" class="dashboard-img" alt="">
+                        <% } %>
+                    <% } %>
+                    <div>
+                        <p> <%=userNow.name%></p>
+                        <small>Public <i class="fas fa-caret-down"></i></small>
+                    </div>
+                </div>
+                <!-- Nội dung bài viết -->
+                <div class="newpst-input">
+                    <form method="post" id="form-add-post" onsubmit="return addPost(this);" enctype="multipart/form-data">
+                        <input name="type" id="type" type="hidden" value="post">
+                        <input name="email" id="email" type="hidden" value="<%= user.email %>">
+                        <input name="_id" id="_id" type="hidden" value="<%= user._id %>">
+                        <input name="googleId" id="googleId" type="hidden" value="<%= user.googleId %>">
+                        <textarea name="caption" id="caption" placeholder="Bạn đang nghĩ gì, <%=user.name%>?" id="" cols="30" rows="3"></textarea>
+                        <div class="attachments">
+                            <ul>
+                                <li id="preview-image">
+                                </li>
+                                <li>
+                                    <i class="fa fa-image"></i>
+                                    <label class="fileContainer">
+                                        <input id="image" type="file" name="image" accept="image/*" onchange="previewPostImage(this);">
+                                    </label>
+                                </li>
+                                <li>
+                                    <i class="fa fa-video-camera"></i>
+                                    <label class="fileContainer">
+                                        <input id="video" type="text" name="video" placeholder="Điền link youtube">
+                                    </label>
+                                </li>
+                                <li>
+                                    <button type="submit">Post</button>
+                                </li>
+
+                            </ul>
+                        </div>
+                        
+                    </form>
+
+                </div>
+            </div>
+
+                <div class="loadMore" id="newsfeed">
+
+                </div>
+        <!-- <p  style="text-align:center; display: block;"><strong id="change-end">Loading...</strong></p> -->
+
+        </div>
+
+        <!-- Modal -->
+        <div id="deleteModal" class="modal">
+            <!-- phải có return ở đầu form -->
+            <form class="modal-content" method="post" onsubmit="return doDelete(this);">
+              <div class="container-box">
+                <h1>Xóa bài đăng</h1><br>
+                <p>Bạn có chắc muốn xóa bài đăng này</p><br>
+                
+              
+                <div class="clearfix">
+                  <button type="button" onclick="document.getElementById('deleteModal').style.display='none'" class="cancelbtn">Cancel</button>
+                  <button id="btn-submit" name = "submit" type="submit" class="deletebtn btn-delete-modal" >Delete</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div id="editModal" class="modal">
+            <!-- phải có return ở đầu form -->
+            <form id="form-edit-post" class="modal-content" method="put" onsubmit="return doEdit(this);" enctype="multipart/form-data">
+              <div class="container-box">
+                <h1>Chỉnh sửa bài viết</h1><br>
+
+                <div class="newpst-input">
+                        <input name="type" id="type" type="hidden" value="post">
+                        <input name="email" id="email" type="hidden" value="">
+                        <input name="imageCheck" id="image-check" type="hidden" value="">
+                        <textarea name="captionDialog" id="caption-dialog" placeholder="Bạn đang nghĩ gì, <%=user.name%>?" id="" cols="30" rows="3"></textarea>
+                        <div class="attachments">
+                            <ul>
+                                <li id="preview-image-dialog">
+                                </li>
+                                <li>
+                                    <i class="fa fa-image"></i>
+                                    <label class="fileContainer">
+                                        <input id="image-dialog" type="file" name="imageDialog" accept="image/*" onchange="previewPostImageDialog(this);">
+                                    </label>
+                                </li>
+                                <li>
+                                    <i class="fa fa-video-camera"></i>
+                                    <label class="fileContainer">
+                                        <input id="video-dialog" type="text" name="videoDialog" placeholder="Điền link youtube">
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+
+                <div class="clearfix">
+                  <button  id="btn-cancel" type="button" onclick="document.getElementById('editModal').style.display='none'" class="cancelbtn">Hủy</button>
+                  <button id="btn-submit" name = "submitEdit" type="submit" class="editbtn btn-edit-modal" >Cập nhật</button>
+                </div>
+              </div>
+            </form>
+        </div>
+       
+
+    </div>
+    <footer id="footer">
+        <p>&copy; Copyright 2021 - Socialbook All Rights Reserved</p>
+    </footer>
+
+    <script src="/javascripts/function.js"></script>
+</body>
+
+</html>

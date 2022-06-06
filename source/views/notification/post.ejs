@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Phòng khoa | Đăng bài</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1,
+      user-scalable=no" name="viewport" />
+    <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/blue.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/morris.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/datepicker3.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <link href="../../stylesheets/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.js"></script> 
+
+</head>
+
+<body class="skin-blue">
+    <div class="wrapper">
+        <header class="main-header">
+            <a class="logo"><b>PHÒNG KHOA</b></a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="../../images/user2-160x160.jpg" class="img-circle" alt="User Image" style="width: 50px; height: 50px" />
+                    </div>
+                    <div class="pull-left info">
+                        <p><%=user.name%></p>
+                    </div>
+                </div>
+
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/department">
+                            <i class="fa fa-home"></i> <span>Trang chủ</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/notification/manager">
+                            <i class="fa fa-arrow-left"></i> <span>Quay lại</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/user/logout">
+                            <i class="fa fa-sign-out"></i> <span>Đăng xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+
+        <div class="content-wrapper">
+
+
+            <section class="content">
+                <div class="row">
+                    <section class="col-lg-8">
+                        <h3 class="text-center text-secondary mt-2 mb-3 mb-3">
+                            Đăng bài thông báo
+                        </h3>
+                        <form method="post" action="/admin/notification" novalidate>
+                            <input name="email" id="email" type="hidden" value="<%= user.email %>">
+                            <input name="id" id="id" type="hidden" value="<%= user._id %>">
+                            <div class="form-group">
+                                <label for="title">Tiêu đề</label>
+                                <input value="<%= notifications.title %>" name="title" required class="form-control" type="text" placeholder="--Nhập tiêu đề bài đăng--" id="title" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">Nội dung</label>
+                                <textarea name="content" class="form-control" id="content" placeholder="--Nhập nội dung bài đăng--" rows="3"><%= notifications.content %></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1"> Chuyên mục Phòng khoa</label>
+                                
+                                <% result.forEach(department =>{ %>
+                                    <!-- phải toString -->
+                                    <!-- nếu có user.department -->
+                                    <% if(user.department && (department._id.toString() == user.department.toString())){ %>
+                                        <input name="department" type= "hidden" value="<%= department._id%>"/>
+                                        <input  value="<%= department.department%>" class="form-control" disabled/>
+                                    <% } %>
+                            
+                            <% }) %>
+                            </div>
+                            <div class="form-group">
+                                <% if(notifications.error.length> 0) {%>
+                                    <div class="alert alert-danger ">
+
+                                        <%= notifications.error %>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <div class="row text-center">
+                                <button name="add" onclick="sendMessage();" type="submit" class="btn btn-success px-5 mr-2"> Đăng bài </button>
+                            </div>
+
+                        </form>
+                    </section>
+
+                    <section class="col-lg-4">
+                        <div class="box box-solid">                        
+                        <div class="box box-solid bg-green-gradient">
+                            <div class="box-header">
+                                <i class="fa fa-calendar"></i>
+                                <h3 class="box-title">Lịch</h3>
+                            </div>                           
+                            <div class="box-body no-padding">
+                                
+                                <div id="calendar" style="width: 100%"></div>
+                            </div>
+                        </div>               
+                    </section>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="../../javascripts/jQuery-2.1.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="../../javascripts/morris.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+    <script src="../../javascripts/jquery.knob.js" type="text/javascript"></script>
+    <script src="../../javascripts/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="../../javascripts/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/icheck.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/fastclick.min.js"></script>
+    <script src="../../javascripts/app.min.js" type="text/javascript"></script>
+    <script src="../../javascripts/dashboard.js" type="text/javascript"></script>
+    <script src="../../javascripts/demo.js" type="text/javascript"></script>
+    <script src="../../javascripts/departmentNotify.js" type="text/javascript"></script>
+</body>
+
+</html>
