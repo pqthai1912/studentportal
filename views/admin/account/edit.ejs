@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | Chỉnh sửa tài khoản</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link href="../../../../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/blue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/morris.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/datepicker3.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../stylesheets/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="skin-blue">
+    <div class="wrapper">
+        <header class="main-header">
+            <a class="logo"><b>ADMIN</b></a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+
+            <section class="sidebar">
+
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="../../../../images/user2-160x160.jpg" class="img-circle" alt="User Image" style="width: 50px; height: 50px" />
+                    </div>
+                    <div class="pull-left info">
+                        <p><%=user.name%></p>
+                    </div>
+                </div>
+
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/department">
+                            <i class="fa fa-home"></i> <span>Trang chủ</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/account">
+                            <i class="fa fa-arrow-left"></i> <span>Quay lại</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/user/logout">
+                            <i class="fa fa-sign-out"></i> <span>Đăng xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+        </aside>
+
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+
+                    <section class="col-lg-8">
+                        <h3 class="text-center text-secondary mt-2 mb-3 mb-3">
+                            <b>CẬP NHẬT TÀI KHOẢN</b>
+                        </h3>
+                        <form method="post" action="/admin/account/edit" novalidate>
+                            <input name="id" value="<%=result.id%>" required class="form-control" type="hidden" placeholder="--Nhập tên--" id="id">
+                            <div class="form-group">
+                                <label for="name">Họ và tên</label>
+                                <input name="name" value="<%=result.name%>" required class="form-control" type="text" placeholder="--Nhập tên--" id="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input name="email" value="<%=result.email%>" required class="form-control" type="email" placeholder="--Nhập email--" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="department">Phòng/Khoa</label>
+                                <select name="department" class="form-control" id="exampleFormControlSelect1">
+                                    <% departments.forEach(department =>{ %>
+                                        <!-- phải toString -->
+                                        <!-- nếu có user.department -->
+                                        <% if(result.department){ %>
+                                            <option <%= (department._id.toString() == result.department.toString()) ? 'selected' : '';%>
+                                                value="<%=department._id%>" class= "<%=result.department%>"><%=department.department%></option>
+                                                <%  }else{ %>
+                                            <option value="<%=department._id%>" class= "<%=result.department%>"><%=department.department%></option>
+                                    }<% } %>
+                                
+                                <% }) %>
+                                    </select>
+                            </div>
+                            <div class="row text-center">
+                                <button name="add" type="submit" class="btn btn-success px-5 mr-2">Cập nhật</button>
+                            </div>
+                        </form>
+
+                    </section>
+
+                    <section class="col-lg-4">
+                        <div class="box box-solid">                        
+                        <div class="box box-solid bg-green-gradient">
+                            <div class="box-header">
+                                <i class="fa fa-calendar"></i>
+                                <h3 class="box-title">Lịch</h3>
+                            </div>                           
+                            <div class="box-body no-padding">
+                                
+                                <div id="calendar" style="width: 100%"></div>
+                            </div>
+                        </div>               
+                    </section>
+                </div>
+            </section>
+
+        </div>
+    </div>
+    <script src="../../../../javascripts/jQuery-2.1.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="../../../../javascripts/morris.min.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/jquery.knob.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/icheck.min.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src='../../../../javascripts/fastclick.min.js'></script>
+    <script src="../../../../javascripts/app.min.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/dashboard.js" type="text/javascript"></script>
+    <script src="../../../../javascripts/demo.js" type="text/javascript"></script>
+</body>
+
+</html>

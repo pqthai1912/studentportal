@@ -1,0 +1,23 @@
+.item{
+    padding-bottom: 5px;
+    text-align:left;
+    box-shadow:3px 8px 15px 2px rgb(148,148,148);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+.item .user .title1{
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 15px;
+    
+}
+.item .user .title2{
+    font-size: 15px;
+    margin-left: 15px;
+    
+}
+.item img{
+    width:100%;
+    border-radius: 8px 8px 0px 0px;
+}

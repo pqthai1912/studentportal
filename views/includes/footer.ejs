@@ -1,0 +1,58 @@
+
+        <!-- sidebar------------ -->
+        <div id="right-bar" class="right-sidebar">
+            <section class="col-lg-4">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h4 class="text-left">
+                            THÔNG BÁO MỚI NHẤT <span>
+                                <a href="/admin/notification">Xem tất cả</a></span> 
+                                
+                        </h4>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="box-group" id="accordion">
+                            <% result.forEach( (data,index)=>{%>
+                            <div class="callout" >
+                                <% var date %>
+                                <em><% departments.forEach(department=>{ %>
+                                    <% if(index < 9){ if(data.department) {%>
+                                    <% var d= department._id.toString(); var i= data.department.toString(); if(d==i) { %>
+                                    [<%=department.department%>  
+
+                                    <% var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
+
+                                    <% var createdAt = new Date(data.created_at);%>
+                                    <% date = createdAt.getDate() + "";%>
+                                    <% var dateTime = createdAt + ""%>
+                                    <% var arrayDate = dateTime.split(" ");%>
+                                    <% var time = arrayDate[4]%>
+                                    <% var t = ''%>
+                                    <% var count = 0%>
+                                    
+                                    <% date =  date.padStart(2, "0") + " " + months[createdAt.getMonth()] + ", " + createdAt.getFullYear() ;%>                                                                                                                                
+                                     
+                                    <% %>] - <%= date %></em>
+                                <h4><%= data.title %></h4>
+                                <p>
+                                    <a href="/admin/notification/<%= data.id %>" class="detail-new">Xem chi tiết</a>
+                                </p>
+                            </div>
+                            <% } }  } }) }) %>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <footer id="footer">
+        <p>&copy; Copyright 2021 - Socialbook All Rights Reserved</p>
+    </footer>
+
+    <script src="../javascripts/function.js"></script>
+    <script src="../javascripts/notifyUser.js"></script>
+
+</body>
+</html>
