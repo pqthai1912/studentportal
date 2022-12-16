@@ -14,11 +14,6 @@ Tài khoản phòng/khoa (tạo bởi admin):
 	email: duy@gmail.com
 	password: 123456
 
-
-Tài khoản gmail MongoDB Atlas (Online): https://account.mongodb.com/
-	email: webnangcaodth@gmail.com
-	password: 999999999d
-
 Note: 
 	- Chi tiết chạy online/offline nhóm chúng em đã ghi trong file CacTinhNang.docx.
 	- Khi click vào logo TDTU ở phía trên cùng góc trái màn hình, sẽ chuyển hướng người dùng về lại Trang Chủ.
